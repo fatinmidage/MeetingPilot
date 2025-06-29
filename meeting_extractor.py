@@ -58,7 +58,7 @@ def load_config() -> dict:
 
 
 def read_meeting_text(file_path: str) -> str:
-    """读取会议记录文本文件"""
+    """读取会议记录文件"""
     try:
         file_path_obj = Path(file_path)
         if not file_path_obj.exists():
@@ -223,14 +223,14 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog="""
 使用示例:
-  python meeting_extractor.py meeting_notes.txt
-  python meeting_extractor.py meeting_notes.txt -o tasks.xlsx
+  python meeting_extractor.py meeting_notes.md
+  python meeting_extractor.py meeting_notes.md -o tasks.xlsx
         """
     )
     
     parser.add_argument(
         "input_file",
-        help="输入的会议记录文本文件路径"
+        help="输入的会议记录文件路径（支持.md/.txt等格式）"
     )
     
     parser.add_argument(
