@@ -1,0 +1,12 @@
+# 方舟平台API配置
+# 请将your_ark_api_key_here替换为您的实际API密钥
+ARK_API_KEY=your_ark_api_key_here
+
+# 大模型配置 (可选，使用默认值)
+MODEL_ID=doubao-seed-1.6-250615
+BASE_URL=https://ark.cn-beijing.volces.com/api/v3
+
+# 使用说明:
+# 1. 复制此文件为 .env
+# 2. 替换 ARK_API_KEY 为您的实际密钥
+# 3. 如需使用其他模型，可修改 MODEL_ID 
