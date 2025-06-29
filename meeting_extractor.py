@@ -12,7 +12,7 @@ from typing import List
 from enum import Enum
 from pydantic import BaseModel, Field
 from dotenv import load_dotenv
-from volcenginesdkarkruntime import Ark
+from openai import OpenAI
 import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 
@@ -85,10 +85,13 @@ def read_meeting_text(file_path: str) -> str:
 def extract_tasks(meeting_text: str, config: dict) -> MeetingResponse:
     """使用大模型提取会议任务"""
     try:
-        # 初始化方舟客户端
-        client = Ark(api_key=config["api_key"])
+        # 初始化OpenAI客户端
+        client = OpenAI(
+            api_key=config["api_key"],
+            base_url=config["base_url"]
+        )
         
-        # 构建提示词 - 简化为业务逻辑，不再要求JSON格式
+        # 构建提示词 - 简化为业务逻辑，使用结构化输出
         system_prompt = """你是一个专业的会议纪要分析助手。请仔细分析会议记录内容，提取出所有相关的信息和待办事项。
 
 请将内容分为两种类型：
@@ -106,7 +109,7 @@ def extract_tasks(meeting_text: str, config: dict) -> MeetingResponse:
 
         user_prompt = f"请分析以下会议记录，提取其中的信息和行动项：\n\n{meeting_text}"
         
-        # 使用结构化输出API
+        # 使用OpenAI结构化输出API
         completion = client.beta.chat.completions.parse(
             model=config["model_id"],
             messages=[
@@ -115,12 +118,7 @@ def extract_tasks(meeting_text: str, config: dict) -> MeetingResponse:
             ],
             response_format=MeetingResponse,  # 指定响应解析模型
             max_tokens=2000,
-            temperature=0.1,
-            extra_body={
-                "thinking": {
-                    "type": "disabled"  # 不使用深度思考能力
-                }
-            }
+            temperature=0.1
         )
         
         # 直接获取解析后的结构化响应
