@@ -58,33 +58,45 @@ BASE_URL=https://ark.cn-beijing.volces.com/api/v3
 
 ### 3. 准备会议记录
 
-创建会议记录文本文件（支持UTF-8编码）：
+创建会议记录Markdown文件（支持UTF-8编码）：
 
-```text
-# meeting_notes.txt 示例
-项目进度汇报会议
+```markdown
+# meeting_notes.md 示例
 
-参会人员：张三、李四、王五
+# 项目进度汇报会议
 
-讨论内容：
+## 会议信息
+- **时间**: 2024年1月8日 下午2:00
+- **参会人员**: 张三、李四、王五
+
+## 讨论内容
+
+### 开发进度
 1. 前端开发进度延期，需要张三在本周五前完成登录页面
 2. 数据库设计需要优化，李四负责下周一提交优化方案
 3. 测试环境搭建，王五在本周三前完成
+
+### 会议安排
 4. 下次会议定在下周四下午2点
 
-决定事项：
+## 决定事项
 - 增加前端开发人手
 - 延长项目时间线一周
+
+## 行动项
+- [ ] 张三：完成登录页面开发（截止：本周五）
+- [ ] 李四：提交数据库优化方案（截止：下周一）
+- [ ] 王五：完成测试环境搭建（截止：本周三）
 ```
 
 ### 4. 运行提取
 
 ```bash
 # 基本用法
-python meeting_extractor.py meeting_notes.txt
+python meeting_extractor.py meeting_notes.md
 
 # 指定输出文件
-python meeting_extractor.py meeting_notes.txt -o tasks.xlsx
+python meeting_extractor.py meeting_notes.md -o tasks.xlsx
 
 # 显示详细帮助
 python meeting_extractor.py --help
@@ -121,8 +133,8 @@ TEMPERATURE=0.1
 
 ```bash
 # 处理多个文件
-for file in *.txt; do
-    python meeting_extractor.py "$file" -o "${file%.txt}_tasks.xlsx"
+for file in *.md; do
+    python meeting_extractor.py "$file" -o "${file%.md}_tasks.xlsx"
 done
 ```
 
@@ -148,7 +160,7 @@ python build.py clean
 
 1. 将生成的可执行文件复制到目标机器
 2. 创建`.env`文件配置API密钥
-3. 准备会议记录文本文件
+3. 准备会议记录Markdown文件
 4. 运行可执行文件
 
 ## 🛠️ 开发指南
@@ -202,7 +214,7 @@ pytest
 A: 检查网络连接和API密钥配置，确保`.env`文件中的`ARK_API_KEY`正确。
 
 **Q: 中文编码乱码？**
-A: 确保会议记录文件保存为UTF-8编码格式。
+A: 确保会议记录Markdown文件保存为UTF-8编码格式。
 
 **Q: 提取结果不准确？**
 A: 尝试调整会议记录格式，使用更清晰的结构化描述。

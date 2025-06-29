@@ -19,6 +19,7 @@ env/
 # Data files
 *.xlsx
 *.txt
+meeting_notes.md
 
 # System files
 .DS_Store
